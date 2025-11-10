@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white h-screen flex justify-center items-center">
+     <div class="bg-gray-700 rounded-2xl shadow-2xl p-6 max-w-md w-full border-t-4 
+max-height: 100vh;">
+
+<p class="text-sm text-white/70 text-center mb-6">Sign in to your account</p>
+
+
+<form id="loginForm" class="space-y-4" novalidate>
+<div>
+<label for="email" class="block text-sm font-medium text-white/80 mb-1">Email</label>
+<input id="email" name="email" type="email" required
+class="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-400" placeholder="Enter your email">
+<p id="emailError" class="mt-1 text-xs text-red-300 hidden">Please enter a valid email.</p>
+</div>
+
+
+<div>
+<label for="password" class="block text-sm font-medium text-white/80 mb-1">Password</label>
+<div class="relative">
+<input id="password" name="password" type="password" minlength="6" required
+class="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-400" placeholder="Enter your password">
+<button id="togglePwd" type="button" class="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-white/60 focus:outline-none">Show</button>
+</div>
+<p id="pwdError" class="mt-1 text-xs text-red-300 hidden">Password must be at least 6 characters.</p>
+</div>
+
+
+<div class="flex items-center justify-between">
+<label class="inline-flex items-center gap-2 text-sm text-white/80">
+<input id="remember" type="checkbox" class="h-4 w-4 rounded bg-white/5 border-white/10 text-indigo-500 focus:ring-indigo-400">
+Remember me
+</label>
+<a href="#" class="text-sm text-indigo-300 hover:underline">Forgot password?</a>
+</div>
+
+
+<div>
+    <a href="index.html">
+<button id="submitBtn" type="submit" 
+class="w-full py-3 rounded-lg font-bold text-white bg-indigo-500/60 hover:bg-indigo-500/80 disabled:opacity-60 transition">Log in
+</button>
+</a>
+</div>
+</form>
+  </div>
+  <script >
+    
+const email = document.getElementById('email');
+const password = document.getElementById('password');
+const submitBtn = document.getElementById('submitBtn');
+const emailError = document.getElementById('emailError');
+const pwdError = document.getElementById('pwdError');
+const togglePwd = document.getElementById('togglePwd');
+const form = document.getElementById('loginForm');
+
+
+function validateEmail(v) {
+return /\S+@\S+\.\S+/.test(v);
+}
+
+
+function updateState() {
+const validEmail = validateEmail(email.value.trim());
+const validPwd = password.value.trim().length >= 6;
+
+
+emailError.style.display = validEmail || email.value.trim() === '' ? 'none' : 'block';
+pwdError.style.display = validPwd || password.value.trim() === '' ? 'none' : 'block';
+
+
+submitBtn.disabled = !(validEmail && validPwd);
+}
+
+
+email.addEventListener('input', updateState);
+password.addEventListener('input', updateState);
+
+
+togglePwd.addEventListener('click', () => {
+if (password.type === 'password') {
+password.type = 'text';
+togglePwd.textContent = 'Hide';
+} else {
+password.type = 'password';
+togglePwd.textContent = 'Show';
+}
+});
+
+
+form.addEventListener('submit', (e) => {
+e.preventDefault();
+
+const payload = { email: email.value.trim(), password: password.value };
+
+if (validateEmail(payload.email) && payload.password.length >= 6) {
+
+window.location.href="index.html";
+} else {
+alert('Invalid credentials');
+}
+});
+updateState();
+  </script>
+</body>
+</html>

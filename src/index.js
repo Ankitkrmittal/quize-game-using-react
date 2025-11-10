@@ -1,5 +1,5 @@
 const quizData = [
-      { question: "What is your name bro?", options: ["yash", "kuch bhi", "yashu", "your name"], correctAnswer: "Fenrir" },
+      { question: "What is your name bro?", options: ["yash", "kuch bhi", "yashu", "your name"], correctAnswer: "yash" },
       { question: "What is the capital of France?", options: ["Berlin", "Madrid", "Paris", "Rome"], correctAnswer: "Paris" },
 
       { question: "Which planet is known as the Red Planet?", options: ["Jupiter", "Mars", "Earth", "Venus"], correctAnswer: "Mars" },
@@ -10,6 +10,8 @@ const quizData = [
 
     let currentQuestionIndex = 0;
     let timeRemaining = 15;
+
+   
     const totalTime = 15;
     let timerInterval;
 
@@ -99,6 +101,7 @@ const quizData = [
       optionsContainer.innerHTML = '';
       updateTurnDisplay();
 
+
       currentQuestion.options.forEach(option => {
         const button = document.createElement('button');
         button.textContent = option;
@@ -146,4 +149,23 @@ const quizData = [
       loadQuestion();
     }
 
-    
+    const buttons = document.querySelectorAll(".difficulty-btn");
+
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        
+        buttons.forEach(b => {
+          b.classList.remove("bg-gradient-to-r", "from-blue-500", "to-orange-500", "text-white", "shadow-md");
+          b.classList.add("bg-gray-200", "text-gray-700");
+        });
+
+       
+        btn.classList.remove("bg-gray-200", "text-gray-700");
+        btn.classList.add("bg-gradient-to-r", "from-blue-500", "to-orange-500", "text-white", "shadow-md");
+
+      
+        const selectedLevel = btn.getAttribute("data-level");
+        console.log("Selected Difficulty:", selectedLevel);
+     
+      });
+    });
