@@ -7,6 +7,7 @@ const quizData = [
       { question: "How many days are in a leap year?", options: ["365", "366", "364", "367"], correctAnswer: "366" },
       { question: "Who painted the Mona Lisa?", options: ["Van Gogh", "Picasso", "Da Vinci", "Monet"], correctAnswer: "Da Vinci" }
     ];
+    
 
     let currentQuestionIndex = 0;
     let timeRemaining = 15;
@@ -82,7 +83,7 @@ const quizData = [
           clearInterval(timerInterval);
           handleTimeout();
         }
-      }, 1000);
+      }, 500);
     }
 
     function handleTimeout() {
@@ -137,17 +138,16 @@ const quizData = [
 
       yashScoreDisplay.textContent = yashScore;
       shukalScoreDisplay.textContent = shukalScore;
-      setTimeout(moveToNextQuestion, 1500);
+      setTimeout(moveToNextQuestion, 500);
       
     }
 
-    function moveToNextQuestion() {
-      isYashsTurn = !isYashsTurn;
+  function moveToNextQuestion() {
+  isYashsTurn = !isYashsTurn;  
+  currentQuestionIndex++;     
+  loadQuestion();          
+}
 
-      if (isYashsTurn) currentQuestionIndex++;
-
-      loadQuestion();
-    }
 
     const buttons = document.querySelectorAll(".difficulty-btn");
 
@@ -169,3 +169,33 @@ const quizData = [
      
       });
     });
+      function endQuiz() {
+      clearInterval(timerInterval);
+
+      let winnerText = "";
+      const p1name = player1Input.value || "Player 1";
+      const p2name = player2Input.value || "Player 2";
+
+      if (yashScore > shukalScore) {
+        winnerText = `${p1name} 🏆 wins!`;
+      } else if (shukalScore > yashScore) {
+        winnerText = `${p2name} 🏆 wins!`;
+      } else {
+        winnerText = "🤝 It's a tie!";
+      }
+
+
+      gameScreen.innerHTML = `
+        <div class="flex flex-col items-center justify-center text-center space-y-4">
+          <h2 class="text-3xl font-bold">Game Over!</h2>
+          <p class="text-2xl font-semibold">${winnerText}</p>
+          <div class="text-lg">
+            <p>${p1name}: ${yashScore}</p>
+            <p>${p2name}: ${shukalScore}</p>
+          </div>
+          <div class="pt-4">
+            <button onclick="location.reload()" class="px-6 py-2 rounded bg-gradient-to-r from-indigo-400 to-orange-400 text-white font-bold">🔄 Play Again</button>
+          </div>
+        </div>
+      `;
+    }
